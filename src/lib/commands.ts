@@ -183,7 +183,7 @@ function educationCmd(): OutputLine[] {
   return [
     { content: "┌─ Education ─────────────────────────────────┐", color: "text-terminal-cyan" },
     { content: "" },
-    { content: `  🎓 ${resumeData.education.degree}`, color: "text-terminal-green" },
+    { content: `  ${resumeData.education.degree}`, color: "text-terminal-green" },
     { content: `     ${resumeData.education.institution}` },
     { content: `     ${resumeData.education.expected}`, color: "text-terminal-yellow" },
     { content: "" },
@@ -196,7 +196,7 @@ function certsCmd(): OutputLine[] {
     { content: "┌─ Certifications ────────────────────────────┐", color: "text-terminal-cyan" },
     { content: "" },
     ...resumeData.certifications.map((c) => ({
-      content: `  📜 ${c}`,
+      content: `  - ${c}`,
       color: "text-terminal-green" as const,
     })),
     { content: "" },
@@ -208,10 +208,10 @@ function contactCmd(): OutputLine[] {
   return [
     { content: "┌─ Contact ───────────────────────────────────┐", color: "text-terminal-cyan" },
     { content: "" },
-    { content: `  📧 Email:    ${resumeData.email}`, color: "text-terminal-green" },
-    { content: `  📱 Phone:    ${resumeData.phone}` },
-    { content: `  🐙 GitHub:   ${resumeData.github}`, color: "text-terminal-blue" },
-    { content: `  💼 LinkedIn: ${resumeData.linkedin}`, color: "text-terminal-blue" },
+    { content: `  Email:    ${resumeData.email}`, color: "text-terminal-green" },
+    { content: `  Phone:    ${resumeData.phone}` },
+    { content: `  GitHub:   ${resumeData.github}`, color: "text-terminal-blue" },
+    { content: `  LinkedIn: ${resumeData.linkedin}`, color: "text-terminal-blue" },
     { content: "" },
     { content: "└─────────────────────────────────────────────┘", color: "text-terminal-cyan" },
   ];
