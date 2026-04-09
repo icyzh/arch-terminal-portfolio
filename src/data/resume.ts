@@ -3,8 +3,8 @@ export const resumeData = {
   location: "New Delhi, India",
   phone: "+91-7678645682",
   email: "mohitmadan128@gmail.com",
-  github: "https://github.com/mohitmadan",
-  linkedin: "https://linkedin.com/in/mohitmadan",
+  github: "https://github.com/Mmadan128",
+  linkedin: "https://www.linkedin.com/in/mohit-madan-b8447a313/",
   
   summary:
     "Computer Science undergraduate interested in building reliable AI systems for practical and operational workflows. Experience developing retrieval-based agents, structuring decision pipelines, and deploying systems in Linux environments with testing and version control.",
@@ -18,7 +18,7 @@ export const resumeData = {
   projects: [
     {
       name: "TraceOps: Log Analysis and Controlled Decision System",
-      link: "GitHub",
+      link: "https://github.com/Mmadan128/TraceOps",
       bullets: [
         "Built a retrieval-based system to analyze large HDFS log corpora and support structured decision-making.",
         "Implemented hybrid retrieval combining BM25 and FAISS using Reciprocal Rank Fusion, followed by CrossEncoder reranking.",
@@ -28,7 +28,7 @@ export const resumeData = {
     },
     {
       name: "Vortex Codec: Byte-Level Neural Compression (Ongoing)",
-      link: "GitHub",
+      link: "https://github.com/Mmadan128/VortexCodec",
       bullets: [
         "Developing a byte-level autoregressive Transformer for lossless compression of structured binary data.",
         "Optimized CUDA-based training under limited GPU memory using gradient checkpointing and chunked processing.",
@@ -57,7 +57,7 @@ export const resumeData = {
   },
 
   certifications: [
-    "Natural Language Processing Specialization – DeepLearning.AI",
+    "Natural Language Processing Specialization - DeepLearning.AI",
     "Hugging Face AI Agents Fundamentals",
   ],
 };
