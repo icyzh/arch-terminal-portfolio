@@ -1,10 +1,32 @@
+import { useState } from "react";
 import { resumeData } from "@/data/resume";
-import { Mail, Phone, Github, Linkedin, GraduationCap, Award, Code, Briefcase, User, Terminal, ExternalLink } from "lucide-react";
+import { Mail, Phone, Github, Linkedin, GraduationCap, Award, Code, Briefcase, User, Terminal, ExternalLink, Send } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
+  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const { toast } = useToast();
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { name, email, message } = contactForm;
+    if (!name || !email || !message) {
+      toast({ title: "Please fill all fields", variant: "destructive" });
+      return;
+    }
+    const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+    window.open(`mailto:${resumeData.email}?subject=${subject}&body=${body}`, "_self");
+    toast({ title: "Opening your email client..." });
+    setContactForm({ name: "", email: "", message: "" });
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Nav */}
@@ -58,9 +80,14 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
           {resumeData.projects.map((p, i) => (
             <Card key={i} className="bg-card border-border hover:border-terminal-dim transition-colors">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base text-terminal-green flex items-center gap-2">
-                  {p.name}
-                  {p.link && <ExternalLink size={14} className="text-muted-foreground" />}
+                <CardTitle className="text-base text-terminal-green">
+                  {p.link ? (
+                    <a href={p.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline">
+                      {p.name} <ExternalLink size={14} className="text-muted-foreground" />
+                    </a>
+                  ) : (
+                    p.name
+                  )}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -75,7 +102,7 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
           <Card className="bg-card border-border hover:border-terminal-dim transition-colors">
             <CardHeader className="pb-2">
               <CardTitle className="text-base text-terminal-yellow flex items-center gap-2">
-                <Award size={16} /> Open Source
+                Open Source
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -135,7 +162,7 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
               {resumeData.certifications.map((c, i) => (
                 <Card key={i} className="bg-card border-border">
                   <CardContent className="pt-4 pb-4">
-                    <p className="text-sm text-terminal-green">📜 {c}</p>
+                    <p className="text-sm text-terminal-green">{c}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -151,19 +178,46 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
         <h2 className="text-2xl font-bold text-terminal-cyan flex items-center gap-2 mb-6">
           <User size={22} /> Contact
         </h2>
-        <div className="flex flex-wrap gap-4">
-          <a href={`mailto:${resumeData.email}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-terminal-green transition-colors">
-            <Mail size={16} /> {resumeData.email}
-          </a>
-          <span className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Phone size={16} /> {resumeData.phone}
-          </span>
-          <a href={resumeData.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-terminal-blue transition-colors">
-            <Github size={16} /> GitHub
-          </a>
-          <a href={resumeData.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-terminal-blue transition-colors">
-            <Linkedin size={16} /> LinkedIn
-          </a>
+        <div className="grid md:grid-cols-2 gap-8">
+          <form onSubmit={handleContactSubmit} className="space-y-4">
+            <Input
+              placeholder="Your Name"
+              value={contactForm.name}
+              onChange={(e) => setContactForm((p) => ({ ...p, name: e.target.value }))}
+              className="bg-card border-border"
+            />
+            <Input
+              type="email"
+              placeholder="Your Email"
+              value={contactForm.email}
+              onChange={(e) => setContactForm((p) => ({ ...p, email: e.target.value }))}
+              className="bg-card border-border"
+            />
+            <Textarea
+              placeholder="Your Message"
+              rows={5}
+              value={contactForm.message}
+              onChange={(e) => setContactForm((p) => ({ ...p, message: e.target.value }))}
+              className="bg-card border-border resize-none"
+            />
+            <Button type="submit" className="flex items-center gap-2">
+              <Send size={16} /> Send Message
+            </Button>
+          </form>
+          <div className="space-y-4 pt-2">
+            <a href={`mailto:${resumeData.email}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-terminal-green transition-colors">
+              <Mail size={16} /> {resumeData.email}
+            </a>
+            <span className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Phone size={16} /> {resumeData.phone}
+            </span>
+            <a href={resumeData.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-terminal-blue transition-colors">
+              <Github size={16} /> GitHub
+            </a>
+            <a href={resumeData.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-terminal-blue transition-colors">
+              <Linkedin size={16} /> LinkedIn
+            </a>
+          </div>
         </div>
       </section>
     </div>
