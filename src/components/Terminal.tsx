@@ -128,7 +128,7 @@ const Terminal = ({ onBoot }: { onBoot?: boolean }) => {
     } else if (e.key === "Tab") {
       e.preventDefault();
       // simple tab completion
-      const cmds = ["help", "about", "skills", "projects", "education", "certifications", "contact", "neofetch", "clear", "whoami", "uname", "ls", "cat", "sudo"];
+      const cmds = ["help", "about", "skills", "projects", "contact", "neofetch", "clear", "whoami", "uname", "ls", "cat", "sudo", "grep", "man", "tree", "history", "echo", "ping", "curl", "fortune", "cowsay", "pacman", "btw", "matrix"];
       const match = cmds.filter((c) => c.startsWith(input));
       if (match.length === 1) setInput(match[0]);
     }
