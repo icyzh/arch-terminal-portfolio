@@ -1,44 +1,45 @@
 export const resumeData = {
   name: "Mohit Madan",
+  tagline: "Building reliable AI systems that actually work.",
   location: "New Delhi, India",
   phone: "+91-7678645682",
   email: "mohitmadan128@gmail.com",
   github: "https://github.com/Mmadan128",
   linkedin: "https://www.linkedin.com/in/mohit-madan-b8447a313/",
-  
-  summary:
-    "Computer Science undergraduate interested in building reliable AI systems for practical and operational workflows. Experience developing retrieval-based agents, structuring decision pipelines, and deploying systems in Linux environments with testing and version control.",
 
-  education: {
-    institution: "Maharaja Agrasen Institute of Technology, New Delhi, India",
-    degree: "B.Tech in Computer Science",
-    expected: "Expected 2028",
-  },
+  summary:
+    "I build retrieval-based agents, structured decision pipelines, and deploy them in production-grade Linux environments. Focused on making AI systems predictable, testable, and useful — not just demos.",
 
   projects: [
     {
-      name: "TraceOps: Log Analysis and Controlled Decision System",
+      name: "TraceOps: Log Analysis & Decision System",
       link: "https://github.com/Mmadan128/TraceOps",
+      tech: ["LangGraph", "FAISS", "BM25", "Docker", "PyTest"],
+      ongoing: false,
       bullets: [
-        "Built a retrieval-based system to analyze large HDFS log corpora and support structured decision-making.",
-        "Implemented hybrid retrieval combining BM25 and FAISS using Reciprocal Rank Fusion, followed by CrossEncoder reranking.",
-        "Orchestrated workflows using LangGraph and explored MCP-style structured tool interfaces to constrain agent behavior.",
-        "Developed in Dockerized environments with GitHub pull-request workflows and PyTest-based validation.",
+        "Retrieval-based system for analyzing large HDFS log corpora with structured decision-making.",
+        "Hybrid retrieval combining BM25 + FAISS via Reciprocal Rank Fusion, with CrossEncoder reranking.",
+        "Orchestrated workflows using LangGraph with MCP-style tool interfaces to constrain agent behavior.",
+        "Dockerized dev environment with GitHub PR workflows and PyTest-based validation.",
       ],
     },
     {
-      name: "Vortex Codec: Byte-Level Neural Compression (Ongoing)",
+      name: "Vortex Codec: Neural Compression",
       link: "https://github.com/Mmadan128/VortexCodec",
+      tech: ["PyTorch", "CUDA", "Transformers"],
+      ongoing: true,
       bullets: [
-        "Developing a byte-level autoregressive Transformer for lossless compression of structured binary data.",
-        "Optimized CUDA-based training under limited GPU memory using gradient checkpointing and chunked processing.",
+        "Byte-level autoregressive Transformer for lossless compression of structured binary data.",
+        "CUDA-optimized training with gradient checkpointing and chunked processing under limited GPU memory.",
       ],
     },
     {
-      name: "Feynman Tutor: Model Fine-Tuning and Evaluation",
+      name: "Feynman Tutor: Model Fine-Tuning",
       link: null,
+      tech: ["LoRA", "Hugging Face", "Evaluation"],
+      ongoing: false,
       bullets: [
-        "Fine-tuned transformer models using LoRA and designed evaluation routines to assess explanation quality.",
+        "Fine-tuned transformer models using LoRA with custom evaluation routines for explanation quality.",
       ],
     },
   ],
@@ -55,9 +56,4 @@ export const resumeData = {
     Retrieval: ["FAISS", "BM25", "SentenceTransformers", "CrossEncoder"],
     Systems: ["Linux", "Git", "Docker", "PyTest", "CUDA"],
   },
-
-  certifications: [
-    "Natural Language Processing Specialization - DeepLearning.AI",
-    "Hugging Face AI Agents Fundamentals",
-  ],
 };
