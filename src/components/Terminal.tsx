@@ -128,7 +128,7 @@ const Terminal = ({ onBoot }: { onBoot?: boolean }) => {
     } else if (e.key === "Tab") {
       e.preventDefault();
       // simple tab completion
-      const cmds = ["help", "about", "skills", "projects", "contact", "neofetch", "clear", "whoami", "uname", "ls", "cat", "sudo", "grep", "man", "tree", "history", "echo", "ping", "curl", "fortune", "cowsay", "pacman", "btw", "matrix"];
+      const cmds = ["help","about","skills","projects","contact","neofetch","clear","whoami","uname","ls","ll","cat","head","tail","wc","find","du","df","chmod","mkdir","touch","cp","mv","stat","file","tree","pwd","cd","rm","sudo","su","grep","rg","man","sort","uniq","rev","base64","md5sum","sed","awk","cut","history","echo","printf","ping","curl","wget","ssh","ifconfig","ip","dig","nslookup","traceroute","netstat","ss","fortune","cowsay","sl","matrix","cmatrix","figlet","joke","fact","lolcat","btw","pacman","systemctl","journalctl","uptime","hostname","id","w","top","htop","ps","kill","killall","free","lscpu","dmesg","lsblk","lsusb","lspci","alias","env","printenv","export","which","whereis","type","cal","expr","bc","sleep","open","xdg-open","git","docker","make","date","yes","true","false","arch","nproc","tty","groups","users","logname","vim","nano","nvim","vi","emacs","python","python3","node","npm","pip","gcc","reboot","shutdown","exit","logout","quit","screenfetch","fastfetch","passwd","crontab","xrandr"];
       const match = cmds.filter((c) => c.startsWith(input));
       if (match.length === 1) setInput(match[0]);
     }

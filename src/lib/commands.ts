@@ -1,423 +1,228 @@
-import { resumeData } from "@/data/resume";
+import { OutputLine } from "./commands/types";
+import { aboutCmd, skillsCmd, projectsCmd, contactCmd } from "./commands/portfolio";
+import { neofetchCmd, uptimeCmd, unameCmd, hostnameCmd, idCmd, wCmd, topCmd, psCmd, killCmd, freeCmd, lscpuCmd, pacmanCmd, systemctlCmd, journalctlCmd } from "./commands/system";
+import { lsCmd, catCmd, treeCmd, headCmd, tailCmd, wcCmd, findCmd, duCmd, dfCmd, chmodCmd, mkdirCmd, touchCmd, cpCmd, mvCmd, statCmd, fileCmd } from "./commands/filesystem";
+import { pingCmd, curlCmd, wgetCmd, sshCmd, ifconfigCmd, ipCmd, digCmd, tracerouteCmd, netstatCmd, ssCmd } from "./commands/network";
+import { fortuneCmd, cowsayCmd, slCmd, cmatrixCmd, figletCmd, jokeCmd, factCmd } from "./commands/fun";
+import { grepCmd, manCmd, sortCmd, uniqCmd, revCmd, base64Cmd, md5sumCmd, sedCmd, awkCmd, cutCmd } from "./commands/text";
+import { aliasCmd, envCmd, exportCmd, whichCmd, typeCmd, calCmd, exprCmd, bcCmd, sleepCmd, xdgOpenCmd, gitCmd, dockerCmd, makeCmd } from "./commands/misc";
 
-interface OutputLine {
-  content: string;
-  color?: string;
-}
-
-const BEAR_LOGO = [
-  "        .--.    .--.         ",
-  "       /    \\__/    \\        ",
-  "      |  ❄          |       ",
-  "      |    ●    ●    |      ",
-  "      |      __      |      ",
-  "       \\    (  )    /       ",
-  "        \\   ''''   /        ",
-  "    .----'--------'----.    ",
-  "   /  ❄    ICY BEAR   ❄ \\  ",
-  "  |  .--.        .--.   |   ",
-  "  | /    \\      /    \\  |   ",
-  "  | \\    /      \\    /  |   ",
-  "  |  '--'        '--'   |   ",
-  "   \\    ❄    ❄    ❄    /   ",
-  "    '---..______..---'      ",
-  "         |      |           ",
-  "         |      |           ",
-  "        _/      \\_          ",
-  "       (__________) ❄       ",
-];
-
-const NEOFETCH_INFO = [
-  { label: "", value: "mohit@archlinux", color: "text-terminal-green" },
-  { label: "", value: "─".repeat(20), color: "text-terminal-dim" },
-  { label: "OS", value: "Arch Linux x86_64" },
-  { label: "Host", value: "Portfolio v2.0" },
-  { label: "Kernel", value: "6.8.1-arch1" },
-  { label: "Shell", value: "mohit-sh 2.0" },
-  { label: "Terminal", value: "web-tty" },
-  { label: "Role", value: "AI Systems Engineer" },
-  { label: "Focus", value: "Retrieval Agents / Decision Pipelines" },
-  { label: "Location", value: "New Delhi, India" },
-  { label: "Uptime", value: "20 years" },
-];
+export { type OutputLine } from "./commands/types";
 
 const COMMAND_HISTORY: string[] = [];
+
+export function getCommandHistory(): string[] {
+  return COMMAND_HISTORY;
+}
 
 export function processCommand(cmd: string): OutputLine[] {
   const parts = cmd.trim().split(/\s+/);
   const command = parts[0]?.toLowerCase();
   const args = parts.slice(1);
 
+  COMMAND_HISTORY.push(cmd);
+
   switch (command) {
-    case "help":
-      return helpCmd();
-    case "about":
-    case "whoami":
-      return aboutCmd();
-    case "skills":
-      return skillsCmd();
-    case "projects":
-      return projectsCmd();
-    case "contact":
-      return contactCmd();
-    case "neofetch":
-      return neofetchCmd();
-    case "uname":
-      if (args.includes("-a")) return [{ content: "Linux archlinux 6.8.1-arch1 #1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux" }];
-      return [{ content: "Linux" }];
-    case "ls":
-      return lsCmd(args);
-    case "cat":
-      return catCmd(args);
-    case "pwd":
-      return [{ content: "/home/mohit" }];
-    case "cd":
-      return [{ content: "nowhere to go — you're already home.", color: "text-terminal-dim" }];
-    case "date":
-      return [{ content: new Date().toString() }];
-    case "echo":
-      return [{ content: args.join(" ") }];
-    case "man":
-      return manCmd(args);
-    case "grep":
-      return grepCmd(args);
-    case "history":
-      return COMMAND_HISTORY.map((c, i) => ({ content: `  ${i + 1}  ${c}`, color: "text-terminal-dim" }));
-    case "tree":
-      return treeCmd();
-    case "sudo":
-      return [{ content: "mohit is not in the sudoers file. This incident will be reported.", color: "text-terminal-red" }];
-    case "pacman":
-      return pacmanCmd(args);
-    case "btw":
-      return [{ content: "I use Arch, btw.", color: "text-terminal-cyan" }];
-    case "ping":
-      return pingCmd(args);
-    case "curl":
-      return curlCmd(args);
-    case "fortune":
-      return fortuneCmd();
-    case "cowsay":
-      return cowsayCmd(args);
-    case "matrix":
-      return [{ content: "Wake up, Neo... The Matrix has you.", color: "text-terminal-green" }];
-    case "exit":
-    case "logout":
-      return [{ content: "There is no escape. You're in too deep.", color: "text-terminal-yellow" }];
-    case "rm":
-      if (args.includes("-rf") && args.includes("/")) return [{ content: "Nice try. System protected.", color: "text-terminal-red" }];
-      return [{ content: `rm: cannot remove: Permission denied`, color: "text-terminal-red" }];
-    case "vim":
-    case "nano":
-    case "nvim":
+    // Portfolio
+    case "help": return helpCmd();
+    case "about": case "whoami": return aboutCmd();
+    case "skills": return skillsCmd();
+    case "projects": return projectsCmd();
+    case "contact": return contactCmd();
+    case "neofetch": return neofetchCmd();
+
+    // Filesystem
+    case "ls": case "ll": return lsCmd(args.length === 0 && command === "ll" ? ["-la"] : args);
+    case "cat": return catCmd(args);
+    case "tree": return treeCmd();
+    case "pwd": return [{ content: "/home/mohit" }];
+    case "cd": return [{ content: "nowhere to go \u2014 you're already home.", color: "text-terminal-dim" }];
+    case "head": return headCmd(args);
+    case "tail": return tailCmd(args);
+    case "wc": return wcCmd(args);
+    case "find": return findCmd(args);
+    case "du": return duCmd(args);
+    case "df": return dfCmd();
+    case "chmod": return chmodCmd(args);
+    case "mkdir": return mkdirCmd(args);
+    case "touch": return touchCmd(args);
+    case "cp": return cpCmd(args);
+    case "mv": return mvCmd(args);
+    case "stat": return statCmd(args);
+    case "file": return fileCmd(args);
+    case "rm": 
+      if (args.includes("-rf") && (args.includes("/") || args.includes("/*"))) return [{ content: "Nice try. System protected by icy bear.", color: "text-terminal-red" }];
+      return [{ content: "rm: cannot remove: Read-only file system", color: "text-terminal-red" }];
+
+    // System
+    case "uname": return unameCmd(args);
+    case "uptime": return uptimeCmd();
+    case "hostname": return hostnameCmd();
+    case "id": return idCmd();
+    case "w": return wCmd();
+    case "top": case "htop": return topCmd();
+    case "ps": return psCmd(args);
+    case "kill": case "killall": case "pkill": return killCmd(args);
+    case "free": return freeCmd();
+    case "lscpu": return lscpuCmd();
+    case "pacman": return pacmanCmd(args);
+    case "systemctl": return systemctlCmd(args);
+    case "journalctl": return journalctlCmd(args);
+    case "sudo": return [{ content: "mohit is not in the sudoers file. This incident will be reported.", color: "text-terminal-red" }];
+    case "su": return [{ content: "su: Authentication failure. You are not root.", color: "text-terminal-red" }];
+    case "dmesg": return [{ content: "[    0.000000] Linux version 6.8.1-arch1 (mohit@archlinux)", color: "text-terminal-dim" }, { content: "[    0.000001] Icy Bear kernel module loaded.", color: "text-terminal-cyan" }];
+    case "lsblk": return [
+      { content: "NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT", color: "text-terminal-cyan" },
+      { content: "sda      8:0    0  500G  0 disk", color: "text-terminal-dim" },
+      { content: "\u251C\u2500sda1   8:1    0   50G  0 part /", color: "text-terminal-dim" },
+      { content: "\u2514\u2500sda2   8:2    0  450G  0 part /home", color: "text-terminal-dim" },
+    ];
+    case "lsusb": return [{ content: "Bus 001 Device 001: ID 1337:0042 Icy Bear Keyboard", color: "text-terminal-dim" }];
+    case "lspci": return [
+      { content: "00:00.0 Host bridge: Intel Neural Bridge", color: "text-terminal-dim" },
+      { content: "00:02.0 VGA: NVIDIA Imagination RTX 4090", color: "text-terminal-green" },
+    ];
+
+    // Network
+    case "ping": return pingCmd(args);
+    case "curl": return curlCmd(args);
+    case "wget": return wgetCmd(args);
+    case "ssh": return sshCmd(args);
+    case "ifconfig": return ifconfigCmd();
+    case "ip": return ipCmd(args);
+    case "dig": case "nslookup": return digCmd(args);
+    case "traceroute": case "tracepath": return tracerouteCmd(args);
+    case "netstat": return netstatCmd();
+    case "ss": return ssCmd();
+
+    // Text processing
+    case "grep": case "rg": return grepCmd(args);
+    case "man": return manCmd(args);
+    case "sort": return sortCmd(args);
+    case "uniq": return uniqCmd(args);
+    case "rev": return revCmd(args);
+    case "base64": return base64Cmd(args);
+    case "md5sum": case "sha256sum": return md5sumCmd(args);
+    case "sed": return sedCmd(args);
+    case "awk": return awkCmd(args);
+    case "cut": return cutCmd(args);
+
+    // Fun
+    case "fortune": return fortuneCmd();
+    case "cowsay": return cowsayCmd(args);
+    case "sl": return slCmd();
+    case "matrix": case "cmatrix": return cmatrixCmd();
+    case "figlet": return figletCmd(args);
+    case "joke": return jokeCmd();
+    case "fact": return factCmd();
+    case "lolcat": return [{ content: args.join(" ") || "I use Arch, btw.", color: "text-terminal-magenta" }];
+    case "btw": return [{ content: "I use Arch, btw.", color: "text-terminal-cyan" }];
+
+    // Misc
+    case "alias": return aliasCmd();
+    case "env": case "printenv": return envCmd();
+    case "export": return exportCmd(args);
+    case "which": case "whereis": return whichCmd(args);
+    case "type": return typeCmd(args);
+    case "cal": case "calendar": return calCmd();
+    case "expr": return exprCmd(args);
+    case "bc": return bcCmd(args);
+    case "sleep": return sleepCmd(args);
+    case "open": case "xdg-open": return xdgOpenCmd(args);
+    case "git": return gitCmd(args);
+    case "docker": return dockerCmd(args);
+    case "make": return makeCmd(args);
+    case "date": return [{ content: new Date().toString() }];
+    case "echo": return [{ content: args.join(" ") }];
+    case "printf": return [{ content: args.join(" ").replace(/\\n/g, "\n") }];
+    case "history": return COMMAND_HISTORY.map((c, i) => ({ content: `  ${i + 1}  ${c}`, color: "text-terminal-dim" }));
+    case "yes": return [{ content: (args[0] || "y").repeat(50).slice(0, 200), color: "text-terminal-green" }];
+    case "true": return [{ content: "" }];
+    case "false": return [{ content: "1", color: "text-terminal-red" }];
+    case "arch": return [{ content: "x86_64" }];
+    case "nproc": return [{ content: "8" }];
+    case "tty": return [{ content: "/dev/pts/0" }];
+    case "groups": return [{ content: "mohit wheel docker" }];
+    case "users": return [{ content: "mohit visitor" }];
+    case "whoami": return [{ content: "mohit" }];
+    case "logname": return [{ content: "mohit" }];
+
+    // Editors
+    case "vim": case "nano": case "nvim": case "vi": case "emacs":
       return [{ content: `${command}: read-only filesystem. Try 'cat' instead.`, color: "text-terminal-yellow" }];
-    case "gcc":
-    case "python":
-    case "python3":
-    case "node":
+
+    // Languages
+    case "gcc": case "g++": case "python": case "python3": case "node": case "npm": case "pip": case "cargo": case "rustc": case "go": case "java": case "javac":
       return [{ content: `${command}: this is a portfolio, not a dev environment. But I appreciate the energy.`, color: "text-terminal-yellow" }];
-    case "":
-      return [];
+
+    // Exit
+    case "exit": case "logout": case "quit": case "q":
+      return [{ content: "There is no escape. You're in too deep.", color: "text-terminal-yellow" }];
+
+    // Misc responses
+    case "reboot": case "shutdown": case "poweroff": case "halt":
+      return [{ content: `${command}: Operation not permitted. The icy bear keeps this system alive.`, color: "text-terminal-red" }];
+    case "passwd": return [{ content: "passwd: you cannot change the bear's password.", color: "text-terminal-red" }];
+    case "crontab": return [{ content: "crontab: 0 * * * * /usr/bin/drink-coffee", color: "text-terminal-dim" }];
+    case "xrandr": return [{ content: "Screen 0: 1920x1080, 144Hz, feeling beautiful", color: "text-terminal-dim" }];
+    case "screenfetch": return neofetchCmd();
+    case "fastfetch": return neofetchCmd();
+
+    case "": return [];
     default:
       return [{ content: `bash: ${command}: command not found. Try "help" for available commands.`, color: "text-terminal-red" }];
   }
 }
 
 function helpCmd(): OutputLine[] {
-  const commands = [
-    ["about      ", "Who am I and what I do"],
-    ["skills     ", "Technical stack breakdown"],
-    ["projects   ", "Things I've built"],
-    ["contact    ", "How to reach me"],
-    ["neofetch   ", "System info, Arch style"],
-    ["ls [-la]   ", "List files in current directory"],
-    ["cat <file> ", "Read a file"],
-    ["tree       ", "Directory structure"],
-    ["grep <term>", "Search across all sections"],
-    ["man <cmd>  ", "Manual for a command"],
-    ["history    ", "Command history"],
-    ["echo <msg> ", "Print a message"],
-    ["fortune    ", "Random wisdom"],
-    ["cowsay <m> ", "Moo"],
-    ["pacman -S  ", "Install knowledge"],
-    ["ping <host>", "Check connectivity"],
-    ["curl <url> ", "Fetch a resource"],
-    ["btw        ", "You already know"],
-    ["clear      ", "Clear the terminal"],
-    ["help       ", "This message"],
+  const sections = [
+    { title: "PORTFOLIO", cmds: [
+      ["about/whoami", "Who am I"], ["skills", "Tech stack"], ["projects", "Things I built"], ["contact", "Reach me"], ["neofetch", "System info + Icy Bear"],
+    ]},
+    { title: "FILESYSTEM", cmds: [
+      ["ls [-la]", "List files"], ["cat <file>", "Read file"], ["tree", "Directory tree"], ["head/tail", "First/last lines"],
+      ["find", "Search files"], ["wc", "Word count"], ["stat", "File info"], ["file", "File type"],
+    ]},
+    { title: "SYSTEM", cmds: [
+      ["uname [-a]", "System info"], ["uptime", "Uptime"], ["top/htop", "Processes"], ["ps aux", "Process list"],
+      ["free", "Memory usage"], ["df", "Disk space"], ["lscpu", "CPU info"], ["pacman", "Package mgr"],
+      ["systemctl", "Services"], ["journalctl", "System logs"],
+    ]},
+    { title: "NETWORK", cmds: [
+      ["ping <host>", "Ping"], ["curl <url>", "HTTP request"], ["wget <url>", "Download"], ["ifconfig/ip", "Network"],
+      ["dig <host>", "DNS lookup"], ["traceroute", "Trace route"], ["netstat/ss", "Connections"],
+    ]},
+    { title: "TEXT", cmds: [
+      ["grep <term>", "Search content"], ["man <cmd>", "Manual pages"], ["sort/uniq", "Sort/dedupe"],
+      ["rev <text>", "Reverse text"], ["base64", "Encode"], ["md5sum", "Hash"],
+    ]},
+    { title: "TOOLS", cmds: [
+      ["git <cmd>", "Git commands"], ["docker <cmd>", "Containers"], ["make <target>", "Build"],
+      ["cal", "Calendar"], ["expr", "Calculator"], ["which", "Find binary"],
+      ["env", "Environment"], ["alias", "Aliases"], ["open <url>", "Open in browser"],
+    ]},
+    { title: "FUN", cmds: [
+      ["fortune", "Random wisdom"], ["cowsay <msg>", "Moo"], ["joke", "Dev humor"], ["fact", "Random fact"],
+      ["figlet <text>", "ASCII text"], ["sl", "Choo choo"], ["matrix", "Red pill"], ["btw", "You know"],
+    ]},
   ];
 
-  return [
-    { content: "╔══════════════════════════════════════════════════╗", color: "text-terminal-blue" },
-    { content: "║       mohit-sh v2.0 — Available Commands        ║", color: "text-terminal-blue" },
-    { content: "╚══════════════════════════════════════════════════╝", color: "text-terminal-blue" },
-    { content: "" },
-    ...commands.map((c) => ({
-      content: `  ${c[0]}  ${c[1]}`,
-      color: "text-foreground",
-    })),
-    { content: "" },
-    { content: "  Tab completion and history (Up/Down) supported.", color: "text-terminal-dim" },
-    { content: "  Try: cat about.txt | grep skills | man projects", color: "text-terminal-dim" },
-  ];
-}
-
-function aboutCmd(): OutputLine[] {
-  return [
-    { content: "┌─ About ──────────────────────────────────────────┐", color: "text-terminal-cyan" },
-    { content: "" },
-    { content: `  ${resumeData.name}`, color: "text-terminal-green" },
-    { content: `  ${resumeData.tagline}`, color: "text-terminal-yellow" },
-    { content: "" },
-    { content: `  ${resumeData.summary}` },
-    { content: "" },
-    { content: `  Location: ${resumeData.location}`, color: "text-terminal-dim" },
-    { content: "" },
-    { content: "└───────────────────────────────────────────────────┘", color: "text-terminal-cyan" },
-  ];
-}
-
-function skillsCmd(): OutputLine[] {
   const lines: OutputLine[] = [
-    { content: "┌─ Tech Stack ──────────────────────────────────────┐", color: "text-terminal-cyan" },
+    { content: "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557", color: "text-terminal-blue" },
+    { content: "\u2551     mohit-sh v2.0 \u2014 Icy Bear Terminal          \u2551", color: "text-terminal-blue" },
+    { content: "\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D", color: "text-terminal-blue" },
     { content: "" },
   ];
 
-  for (const [category, items] of Object.entries(resumeData.skills)) {
-    lines.push({ content: `  ${category}:`, color: "text-terminal-yellow" });
-    lines.push({ content: `    ${(items as string[]).join(" | ")}`, color: "text-terminal-green" });
+  for (const section of sections) {
+    lines.push({ content: `  ${section.title}`, color: "text-terminal-yellow" });
+    for (const [cmd, desc] of section.cmds) {
+      lines.push({ content: `    ${cmd.padEnd(16)} ${desc}`, color: "text-foreground" });
+    }
     lines.push({ content: "" });
   }
 
-  lines.push({ content: "└────────────────────────────────────────────────────┘", color: "text-terminal-cyan" });
+  lines.push({ content: "  Tab completion and history (Up/Down) supported.", color: "text-terminal-dim" });
+  lines.push({ content: "  80+ commands available. Go wild.", color: "text-terminal-dim" });
   return lines;
-}
-
-function projectsCmd(): OutputLine[] {
-  const lines: OutputLine[] = [
-    { content: "┌─ Projects ────────────────────────────────────────┐", color: "text-terminal-cyan" },
-    { content: "" },
-  ];
-
-  resumeData.projects.forEach((p, i) => {
-    const status = p.ongoing ? " [IN PROGRESS]" : "";
-    lines.push({ content: `  [${i + 1}] ${p.name}${status}`, color: p.ongoing ? "text-terminal-yellow" : "text-terminal-green" });
-    if (p.tech) lines.push({ content: `      Stack: ${p.tech.join(", ")}`, color: "text-terminal-dim" });
-    if (p.link) lines.push({ content: `      ${p.link}`, color: "text-terminal-blue" });
-    p.bullets.forEach((b) => {
-      lines.push({ content: `      - ${b}`, color: "text-foreground" });
-    });
-    lines.push({ content: "" });
-  });
-
-  lines.push({ content: "  Open Source:", color: "text-terminal-yellow" });
-  resumeData.openSource.forEach((item) => {
-    lines.push({ content: `    - ${item}` });
-  });
-  lines.push({ content: "" });
-  lines.push({ content: "└────────────────────────────────────────────────────┘", color: "text-terminal-cyan" });
-  return lines;
-}
-
-function contactCmd(): OutputLine[] {
-  return [
-    { content: "┌─ Contact ─────────────────────────────────────────┐", color: "text-terminal-cyan" },
-    { content: "" },
-    { content: `  Email:    ${resumeData.email}`, color: "text-terminal-green" },
-    { content: `  GitHub:   ${resumeData.github}`, color: "text-terminal-blue" },
-    { content: `  LinkedIn: ${resumeData.linkedin}`, color: "text-terminal-blue" },
-    { content: `  Phone:    ${resumeData.phone}`, color: "text-terminal-dim" },
-    { content: "" },
-    { content: "└────────────────────────────────────────────────────┘", color: "text-terminal-cyan" },
-  ];
-}
-
-function neofetchCmd(): OutputLine[] {
-  const lines: OutputLine[] = [];
-  const maxLogo = BEAR_LOGO.length;
-  const maxInfo = NEOFETCH_INFO.length;
-  const maxLines = Math.max(maxLogo, maxInfo);
-
-  for (let i = 0; i < maxLines; i++) {
-    const logo = i < maxLogo ? BEAR_LOGO[i] : " ".repeat(30);
-    const info = i < maxInfo ? NEOFETCH_INFO[i] : null;
-
-    let infoStr = "";
-    if (info) {
-      infoStr = info.label === "" ? info.value : `${info.label}: ${info.value}`;
-    }
-
-    lines.push({
-      content: `${logo}  ${infoStr}`,
-      color: i < maxLogo ? "text-terminal-blue" : "text-foreground",
-    });
-  }
-
-  lines.push({ content: "" });
-  lines.push({ content: "  ███████████████████████████████████████", color: "text-terminal-dim" });
-  return lines;
-}
-
-function lsCmd(args: string[]): OutputLine[] {
-  if (args.includes("-la") || args.includes("-l") || args.includes("-al")) {
-    return [
-      { content: "total 6", color: "text-terminal-dim" },
-      { content: "drwxr-xr-x  mohit mohit  4096  about.txt", color: "text-terminal-green" },
-      { content: "-rw-r--r--  mohit mohit  2048  skills.txt", color: "text-terminal-green" },
-      { content: "-rw-r--r--  mohit mohit  8192  projects.txt", color: "text-terminal-green" },
-      { content: "-rw-r--r--  mohit mohit  1024  contact.txt", color: "text-terminal-green" },
-      { content: "-rw-r--r--  mohit mohit   512  .arch-btw", color: "text-terminal-dim" },
-      { content: "-rw-r--r--  mohit mohit   256  .vimrc", color: "text-terminal-dim" },
-    ];
-  }
-  return [
-    { content: "about.txt  skills.txt  projects.txt  contact.txt", color: "text-terminal-green" },
-  ];
-}
-
-function catCmd(args: string[]): OutputLine[] {
-  if (args.length === 0) return [{ content: "usage: cat <filename>", color: "text-terminal-yellow" }];
-
-  const file = args[0].replace(".txt", "");
-  const map: Record<string, () => OutputLine[]> = {
-    about: aboutCmd,
-    skills: skillsCmd,
-    projects: projectsCmd,
-    contact: contactCmd,
-    ".arch-btw": () => [{ content: "I use Arch, btw.", color: "text-terminal-cyan" }],
-    ".vimrc": () => [
-      { content: 'set number', color: "text-terminal-dim" },
-      { content: 'set relativenumber', color: "text-terminal-dim" },
-      { content: 'syntax on', color: "text-terminal-dim" },
-      { content: '" btw, I use neovim now', color: "text-terminal-yellow" },
-    ],
-  };
-
-  if (map[file]) return map[file]();
-  return [{ content: `cat: ${args[0]}: No such file or directory`, color: "text-terminal-red" }];
-}
-
-function treeCmd(): OutputLine[] {
-  return [
-    { content: ".", color: "text-terminal-green" },
-    { content: "├── about.txt", color: "text-terminal-green" },
-    { content: "├── skills.txt", color: "text-terminal-green" },
-    { content: "├── projects.txt", color: "text-terminal-green" },
-    { content: "├── contact.txt", color: "text-terminal-green" },
-    { content: "├── .arch-btw", color: "text-terminal-dim" },
-    { content: "└── .vimrc", color: "text-terminal-dim" },
-    { content: "" },
-    { content: "0 directories, 6 files", color: "text-terminal-dim" },
-  ];
-}
-
-function manCmd(args: string[]): OutputLine[] {
-  if (!args[0]) return [{ content: "What manual page do you want?", color: "text-terminal-yellow" }];
-  const pages: Record<string, string[]> = {
-    about: ["NAME", "  about - display portfolio owner info", "", "SYNOPSIS", "  about", "", "DESCRIPTION", "  Shows name, bio, tagline, and location."],
-    skills: ["NAME", "  skills - list technical skills", "", "SYNOPSIS", "  skills", "", "DESCRIPTION", "  Displays categorized tech stack."],
-    projects: ["NAME", "  projects - show built projects", "", "SYNOPSIS", "  projects", "", "DESCRIPTION", "  Lists projects with descriptions, tech stacks, and links."],
-  };
-  const page = pages[args[0]];
-  if (!page) return [{ content: `No manual entry for ${args[0]}`, color: "text-terminal-yellow" }];
-  return page.map(l => ({ content: l, color: l === l.toUpperCase() && l.trim() ? "text-terminal-yellow" : "text-foreground" }));
-}
-
-function grepCmd(args: string[]): OutputLine[] {
-  if (!args[0]) return [{ content: "usage: grep <pattern>", color: "text-terminal-yellow" }];
-  const term = args[0].toLowerCase();
-  const results: OutputLine[] = [];
-  const allText = [
-    { section: "about", text: resumeData.summary },
-    { section: "about", text: resumeData.tagline },
-    ...resumeData.projects.flatMap(p => p.bullets.map(b => ({ section: p.name, text: b }))),
-    ...Object.entries(resumeData.skills).flatMap(([cat, items]) => (items as string[]).map(s => ({ section: cat, text: s }))),
-  ];
-
-  for (const item of allText) {
-    if (item.text.toLowerCase().includes(term)) {
-      results.push({ content: `  ${item.section}: ${item.text}`, color: "text-terminal-green" });
-    }
-  }
-
-  if (results.length === 0) return [{ content: `No matches for "${args[0]}"`, color: "text-terminal-yellow" }];
-  return [{ content: `Found ${results.length} match(es):`, color: "text-terminal-cyan" }, ...results];
-}
-
-function pacmanCmd(args: string[]): OutputLine[] {
-  if (args[0] === "-S" && args[1]) {
-    return [
-      { content: `resolving dependencies...`, color: "text-terminal-dim" },
-      { content: `looking for conflicting packages...`, color: "text-terminal-dim" },
-      { content: ``, },
-      { content: `Package (1)         New Version`, color: "text-terminal-cyan" },
-      { content: `${args[1].padEnd(20)} 1.0.0-1`, },
-      { content: ``, },
-      { content: `:: Proceed with installation? [Y/n] Y`, color: "text-terminal-yellow" },
-      { content: `(1/1) installing ${args[1]}...`, color: "text-terminal-green" },
-      { content: `Knowledge upgraded successfully.`, color: "text-terminal-green" },
-    ];
-  }
-  if (args[0] === "-Syu") {
-    return [
-      { content: `:: Synchronizing package databases...`, color: "text-terminal-blue" },
-      { content: `   core is up to date`, color: "text-terminal-dim" },
-      { content: `   extra is up to date`, color: "text-terminal-dim" },
-      { content: `:: Starting full system upgrade...`, color: "text-terminal-blue" },
-      { content: ` there is nothing to do`, color: "text-terminal-green" },
-    ];
-  }
-  return [{ content: "usage: pacman -S <package> | pacman -Syu", color: "text-terminal-yellow" }];
-}
-
-function pingCmd(args: string[]): OutputLine[] {
-  const host = args[0] || "localhost";
-  return [
-    { content: `PING ${host} (127.0.0.1) 56(84) bytes of data.`, color: "text-terminal-dim" },
-    { content: `64 bytes from ${host}: icmp_seq=1 ttl=64 time=0.042 ms`, color: "text-terminal-green" },
-    { content: `64 bytes from ${host}: icmp_seq=2 ttl=64 time=0.038 ms`, color: "text-terminal-green" },
-    { content: `64 bytes from ${host}: icmp_seq=3 ttl=64 time=0.041 ms`, color: "text-terminal-green" },
-    { content: `--- ${host} ping statistics ---`, color: "text-terminal-dim" },
-    { content: `3 packets transmitted, 3 received, 0% packet loss`, color: "text-terminal-green" },
-  ];
-}
-
-function curlCmd(args: string[]): OutputLine[] {
-  if (!args[0]) return [{ content: "usage: curl <url>", color: "text-terminal-yellow" }];
-  return [
-    { content: `> GET ${args[0]} HTTP/1.1`, color: "text-terminal-dim" },
-    { content: `< HTTP/1.1 200 OK`, color: "text-terminal-green" },
-    { content: `< Content-Type: application/json`, color: "text-terminal-dim" },
-    { content: `` },
-    { content: `{"name":"${resumeData.name}","status":"open to opportunities","stack":"AI/ML"}`, color: "text-terminal-green" },
-  ];
-}
-
-function fortuneCmd(): OutputLine[] {
-  const fortunes = [
-    "The best way to predict the future is to build it.",
-    "First, solve the problem. Then, write the code.",
-    "It works on my machine. Ship my machine.",
-    "There are only two hard things: cache invalidation, naming things, and off-by-one errors.",
-    "In theory, theory and practice are the same. In practice, they are not.",
-    "sudo make me a sandwich.",
-    "Weeks of coding can save you hours of planning.",
-    "The cloud is just someone else's computer.",
-  ];
-  return [{ content: `  "${fortunes[Math.floor(Math.random() * fortunes.length)]}"`, color: "text-terminal-yellow" }];
-}
-
-function cowsayCmd(args: string[]): OutputLine[] {
-  const msg = args.length > 0 ? args.join(" ") : "moo";
-  const border = "─".repeat(msg.length + 2);
-  return [
-    { content: ` ┌${border}┐`, color: "text-foreground" },
-    { content: ` │ ${msg} │`, color: "text-foreground" },
-    { content: ` └${border}┘`, color: "text-foreground" },
-    { content: `        \\   ^__^`, color: "text-terminal-green" },
-    { content: `         \\  (oo)\\_______`, color: "text-terminal-green" },
-    { content: `            (__)\\       )\\/\\`, color: "text-terminal-green" },
-    { content: `                ||----w |`, color: "text-terminal-green" },
-    { content: `                ||     ||`, color: "text-terminal-green" },
-  ];
 }
