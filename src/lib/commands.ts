@@ -5,26 +5,26 @@ interface OutputLine {
   color?: string;
 }
 
-const ARCH_LOGO = [
-  "                   -`                  ",
-  "                  .o+`                 ",
-  "                 `ooo/                 ",
-  "                `+oooo:                ",
-  "               `+oooooo:               ",
-  "               -+oooooo+:              ",
-  "             `/:-:++oooo+:             ",
-  "            `/++++/+++++++:            ",
-  "           `/++++++++++++++:           ",
-  "          `/+++ooooooooooooo/`         ",
-  "         ./ooosssso++osssssso+`        ",
-  "        .oossssso-````/ossssss+`       ",
-  "       -osssssso.      :ssssssso.      ",
-  "      :osssssss/        osssso+++.     ",
-  "     /ossssssss/        +ssssooo/-     ",
-  "   `/ossssso+/:-        -:/+osssso+-   ",
-  "  `+sso+:-`                 `.-/+oso:  ",
-  " `++:.                           `-/+/ ",
-  " .`                                 `/ ",
+const BEAR_LOGO = [
+  "        .--.    .--.         ",
+  "       /    \\__/    \\        ",
+  "      |  ❄          |       ",
+  "      |    ●    ●    |      ",
+  "      |      __      |      ",
+  "       \\    (  )    /       ",
+  "        \\   ''''   /        ",
+  "    .----'--------'----.    ",
+  "   /  ❄    ICY BEAR   ❄ \\  ",
+  "  |  .--.        .--.   |   ",
+  "  | /    \\      /    \\  |   ",
+  "  | \\    /      \\    /  |   ",
+  "  |  '--'        '--'   |   ",
+  "   \\    ❄    ❄    ❄    /   ",
+  "    '---..______..---'      ",
+  "         |      |           ",
+  "         |      |           ",
+  "        _/      \\_          ",
+  "       (__________) ❄       ",
 ];
 
 const NEOFETCH_INFO = [
