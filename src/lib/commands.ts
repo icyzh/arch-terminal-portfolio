@@ -5,26 +5,26 @@ interface OutputLine {
   color?: string;
 }
 
-const ARCH_LOGO = [
-  "                   -`                  ",
-  "                  .o+`                 ",
-  "                 `ooo/                 ",
-  "                `+oooo:                ",
-  "               `+oooooo:               ",
-  "               -+oooooo+:              ",
-  "             `/:-:++oooo+:             ",
-  "            `/++++/+++++++:            ",
-  "           `/++++++++++++++:           ",
-  "          `/+++ooooooooooooo/`         ",
-  "         ./ooosssso++osssssso+`        ",
-  "        .oossssso-````/ossssss+`       ",
-  "       -osssssso.      :ssssssso.      ",
-  "      :osssssss/        osssso+++.     ",
-  "     /ossssssss/        +ssssooo/-     ",
-  "   `/ossssso+/:-        -:/+osssso+-   ",
-  "  `+sso+:-`                 `.-/+oso:  ",
-  " `++:.                           `-/+/ ",
-  " .`                                 `/ ",
+const BEAR_LOGO = [
+  "        .--.    .--.         ",
+  "       /    \\__/    \\        ",
+  "      |  ❄          |       ",
+  "      |    ●    ●    |      ",
+  "      |      __      |      ",
+  "       \\    (  )    /       ",
+  "        \\   ''''   /        ",
+  "    .----'--------'----.    ",
+  "   /  ❄    ICY BEAR   ❄ \\  ",
+  "  |  .--.        .--.   |   ",
+  "  | /    \\      /    \\  |   ",
+  "  | \\    /      \\    /  |   ",
+  "  |  '--'        '--'   |   ",
+  "   \\    ❄    ❄    ❄    /   ",
+  "    '---..______..---'      ",
+  "         |      |           ",
+  "         |      |           ",
+  "        _/      \\_          ",
+  "       (__________) ❄       ",
 ];
 
 const NEOFETCH_INFO = [
@@ -234,12 +234,12 @@ function contactCmd(): OutputLine[] {
 
 function neofetchCmd(): OutputLine[] {
   const lines: OutputLine[] = [];
-  const maxLogo = ARCH_LOGO.length;
+  const maxLogo = BEAR_LOGO.length;
   const maxInfo = NEOFETCH_INFO.length;
   const maxLines = Math.max(maxLogo, maxInfo);
 
   for (let i = 0; i < maxLines; i++) {
-    const logo = i < maxLogo ? ARCH_LOGO[i] : " ".repeat(40);
+    const logo = i < maxLogo ? BEAR_LOGO[i] : " ".repeat(30);
     const info = i < maxInfo ? NEOFETCH_INFO[i] : null;
 
     let infoStr = "";
