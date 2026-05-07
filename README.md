@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# Terminal Portfolio
 
-TODO: Document your project here
+A terminal-styled portfolio application built with React, TypeScript, and Tailwind CSS.
