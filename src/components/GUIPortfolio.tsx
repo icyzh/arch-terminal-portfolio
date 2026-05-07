@@ -1,17 +1,31 @@
 import { useState } from "react";
 import { resumeData } from "@/data/resume";
-import { Mail, Github, Linkedin, Code, Briefcase, User, Terminal, ExternalLink, Send, Sparkles, Cpu } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Mail, Github, Linkedin, Terminal as TerminalIcon, ExternalLink, Copy, Check, Send, ArrowUpRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
+const Pill = ({ children }: { children: React.ReactNode }) => (
+  <span className="inline-flex items-center px-2 py-0.5 text-[11px] rounded-full border border-border text-muted-foreground bg-card/60">
+    {children}
+  </span>
+);
+
+const SectionHeader = ({ children }: { children: React.ReactNode }) => (
+  <h2 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">{children}</h2>
+);
+
 const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
   const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [copied, setCopied] = useState(false);
   const { toast } = useToast();
+
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText(resumeData.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,169 +41,176 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
     setContactForm({ name: "", email: "", message: "" });
   };
 
+  const allSkills = Object.values(resumeData.skills).flat() as string[];
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-secondary/80 backdrop-blur-sm">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <span className="font-bold text-lg text-terminal-green">~/mohit</span>
-          <div className="flex items-center gap-4">
-            <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
-            <a href="#projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Projects</a>
-            <a href="#skills" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Skills</a>
-            <a href="#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</a>
+    <div className="theme-cream min-h-screen font-mono">
+      {/* Top bar */}
+      <nav className="sticky top-0 z-50 backdrop-blur-md bg-background/70 border-b border-border/60">
+        <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between text-sm">
+          <span className="font-semibold tracking-tight">mohitmadan.dev</span>
+          <div className="flex items-center gap-5 text-muted-foreground">
+            <a href="#projects" className="hover:text-foreground transition-colors">Projects</a>
+            <a href="#skills" className="hover:text-foreground transition-colors">Skills</a>
+            <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
             <button
               onClick={onSwitchMode}
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded border border-border bg-card hover:bg-muted transition-colors text-terminal-green"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-border hover:bg-muted transition-colors text-foreground"
+              aria-label="Switch to terminal mode"
             >
-              <Terminal size={14} />
-              Terminal Mode
+              <TerminalIcon size={12} /> Terminal
             </button>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
-      <section id="about" className="max-w-5xl mx-auto px-4 py-20">
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2 text-sm text-terminal-dim font-mono">
-            <Cpu size={14} /> AI Systems · Retrieval Agents · Infrastructure
+      <section className="max-w-3xl mx-auto px-6 pt-20 pb-16">
+        <div className="flex gap-6 items-start">
+          <div className="w-24 h-24 rounded-full bg-muted border border-border flex items-center justify-center text-3xl font-bold shrink-0">
+            MM
           </div>
-          <h1 className="text-5xl font-bold text-terminal-green tracking-tight">{resumeData.name}</h1>
-          <p className="text-xl text-terminal-cyan font-medium">{resumeData.tagline}</p>
-          <p className="mt-3 text-muted-foreground max-w-2xl leading-relaxed text-base">{resumeData.summary}</p>
-          <div className="flex gap-3 mt-6">
-            <a href={`mailto:${resumeData.email}`} className="flex items-center gap-2 px-5 py-2.5 rounded bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity">
-              <Mail size={16} /> Get in Touch
-            </a>
-            <a href={resumeData.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-2.5 rounded border border-border text-sm hover:bg-muted transition-colors">
-              <Github size={16} /> GitHub
-            </a>
-            <a href={resumeData.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-2.5 rounded border border-border text-sm hover:bg-muted transition-colors">
-              <Linkedin size={16} /> LinkedIn
-            </a>
+          <div className="flex-1 min-w-0">
+            <div className="text-[11px] text-muted-foreground mb-2 tracking-wider">
+              #f7f4f0 &nbsp; #1a1612 &nbsp; #5c5549
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight">Hey, I'm Mohit</h1>
+            <p className="text-muted-foreground mt-1">AI / Systems Engineer</p>
+
+            <div className="flex items-center gap-2 mt-3 text-sm">
+              <button onClick={copyEmail} className="flex items-center gap-1.5 hover:text-foreground text-muted-foreground transition-colors">
+                {resumeData.email}
+                {copied ? <Check size={12} className="text-terminal-green" /> : <Copy size={12} />}
+              </button>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 mt-4">
+              <a href={`mailto:${resumeData.email}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full border border-border hover:bg-muted transition-colors">
+                <Mail size={12} /> Email
+              </a>
+              <a href={resumeData.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full border border-border hover:bg-muted transition-colors">
+                <Github size={12} /> GitHub
+              </a>
+              <a href={resumeData.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full border border-border hover:bg-muted transition-colors">
+                <Linkedin size={12} /> LinkedIn
+              </a>
+            </div>
+
+            <div className="flex items-center gap-2 mt-4 text-xs text-muted-foreground">
+              <span className="w-1.5 h-1.5 rounded-full bg-terminal-green inline-block" />
+              Open to collaborations
+            </div>
           </div>
         </div>
       </section>
 
-      <Separator className="max-w-5xl mx-auto" />
+      {/* About */}
+      <section className="max-w-3xl mx-auto px-6 py-10">
+        <SectionHeader>About</SectionHeader>
+        <p className="text-sm leading-relaxed text-foreground/80">
+          {resumeData.summary}
+        </p>
+      </section>
 
       {/* Projects */}
-      <section id="projects" className="max-w-5xl mx-auto px-4 py-14">
-        <h2 className="text-2xl font-bold text-terminal-cyan flex items-center gap-2 mb-8">
-          <Briefcase size={22} /> What I've Built
-        </h2>
-        <div className="grid md:grid-cols-2 gap-5">
+      <section id="projects" className="max-w-3xl mx-auto px-6 py-10">
+        <SectionHeader>Projects</SectionHeader>
+        <div className="space-y-8">
           {resumeData.projects.map((p, i) => (
-            <Card key={i} className="bg-card border-border hover:border-terminal-green/50 transition-all duration-300 group">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base text-terminal-green flex items-center justify-between">
-                  {p.link ? (
-                    <a href={p.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline">
-                      {p.name} <ExternalLink size={14} className="text-muted-foreground group-hover:text-terminal-green transition-colors" />
-                    </a>
-                  ) : (
-                    <span className="flex items-center gap-2">{p.name} {p.ongoing && <Badge variant="outline" className="text-[10px] text-terminal-yellow border-terminal-yellow/40">In Progress</Badge>}</span>
-                  )}
-                </CardTitle>
-                {p.tech && (
-                  <div className="flex flex-wrap gap-1 mt-1">
-                    {p.tech.map(t => (
-                      <span key={t} className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-terminal-dim font-mono">{t}</span>
-                    ))}
+            <div key={i} className="group">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-base">{p.name}</h3>
+                    {p.ongoing && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full border border-border text-muted-foreground">WIP</span>
+                    )}
                   </div>
+                  <ul className="mt-2 space-y-1 text-sm text-muted-foreground leading-relaxed">
+                    {p.bullets.map((b, j) => (
+                      <li key={j}>— {b}</li>
+                    ))}
+                  </ul>
+                  {p.tech && (
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {p.tech.map((t) => <Pill key={t}>{t}</Pill>)}
+                    </div>
+                  )}
+                </div>
+                {p.link && (
+                  <a
+                    href={p.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Visit <ArrowUpRight size={12} />
+                  </a>
                 )}
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-1.5">
-                  {p.bullets.map((b, j) => (
-                    <li key={j} className="text-sm text-muted-foreground leading-relaxed">• {b}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ))}
-          <Card className="bg-card border-border hover:border-terminal-yellow/50 transition-all duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base text-terminal-yellow flex items-center gap-2">
-                <Sparkles size={16} /> Open Source
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-1.5">
-                {resumeData.openSource.map((item, i) => (
-                  <li key={i} className="text-sm text-muted-foreground">• {item}</li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      <Separator className="max-w-5xl mx-auto" />
-
-      {/* Skills */}
-      <section id="skills" className="max-w-5xl mx-auto px-4 py-14">
-        <h2 className="text-2xl font-bold text-terminal-cyan flex items-center gap-2 mb-8">
-          <Code size={22} /> Tech Stack
-        </h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {Object.entries(resumeData.skills).map(([category, items]) => (
-            <div key={category} className="space-y-3">
-              <h3 className="text-sm font-semibold text-terminal-yellow uppercase tracking-wider">{category}</h3>
-              <div className="flex flex-wrap gap-2">
-                {(items as string[]).map((s) => (
-                  <Badge key={s} variant="secondary" className="text-xs font-mono">{s}</Badge>
-                ))}
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <Separator className="max-w-5xl mx-auto" />
+      {/* Skills */}
+      <section id="skills" className="max-w-3xl mx-auto px-6 py-10">
+        <SectionHeader>Skills</SectionHeader>
+        <div className="flex flex-wrap gap-1.5">
+          {allSkills.map((s) => <Pill key={s}>{s}</Pill>)}
+        </div>
+      </section>
+
+      {/* Open Source */}
+      <section className="max-w-3xl mx-auto px-6 py-10">
+        <SectionHeader>Open Source</SectionHeader>
+        <ul className="space-y-2 text-sm text-muted-foreground">
+          {resumeData.openSource.map((item, i) => (
+            <li key={i}>— {item}</li>
+          ))}
+        </ul>
+      </section>
 
       {/* Contact */}
-      <section id="contact" className="max-w-5xl mx-auto px-4 py-14 pb-20">
-        <h2 className="text-2xl font-bold text-terminal-cyan flex items-center gap-2 mb-8">
-          <User size={22} /> Let's Connect
-        </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <form onSubmit={handleContactSubmit} className="space-y-4">
+      <section id="contact" className="max-w-3xl mx-auto px-6 py-10 pb-24">
+        <SectionHeader>Contact</SectionHeader>
+        <form onSubmit={handleContactSubmit} className="space-y-3">
+          <div className="grid sm:grid-cols-2 gap-3">
             <Input
-              placeholder="Your Name"
+              placeholder="Name"
               value={contactForm.name}
               onChange={(e) => setContactForm((p) => ({ ...p, name: e.target.value }))}
-              className="bg-card border-border"
+              className="bg-card border-border rounded-md"
             />
             <Input
               type="email"
-              placeholder="Your Email"
+              placeholder="Email"
               value={contactForm.email}
               onChange={(e) => setContactForm((p) => ({ ...p, email: e.target.value }))}
-              className="bg-card border-border"
+              className="bg-card border-border rounded-md"
             />
-            <Textarea
-              placeholder="Your Message"
-              rows={5}
-              value={contactForm.message}
-              onChange={(e) => setContactForm((p) => ({ ...p, message: e.target.value }))}
-              className="bg-card border-border resize-none"
-            />
-            <Button type="submit" className="flex items-center gap-2">
-              <Send size={16} /> Send Message
+          </div>
+          <Textarea
+            placeholder="Message"
+            rows={5}
+            value={contactForm.message}
+            onChange={(e) => setContactForm((p) => ({ ...p, message: e.target.value }))}
+            className="bg-card border-border resize-none rounded-md"
+          />
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">Sends to {resumeData.email}</span>
+            <Button type="submit" size="sm" className="rounded-full">
+              <Send size={12} /> Send
             </Button>
-          </form>
-          <div className="space-y-4 pt-2">
-            <a href={`mailto:${resumeData.email}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-terminal-green transition-colors">
-              <Mail size={16} /> {resumeData.email}
-            </a>
-            <a href={resumeData.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-terminal-blue transition-colors">
-              <Github size={16} /> GitHub
-            </a>
-            <a href={resumeData.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-terminal-blue transition-colors">
-              <Linkedin size={16} /> LinkedIn
-            </a>
+          </div>
+        </form>
+
+        <div className="mt-12 pt-6 border-t border-border/60 flex items-center justify-between text-xs text-muted-foreground">
+          <span>© {new Date().getFullYear()} Mohit Madan</span>
+          <div className="flex items-center gap-4">
+            <a href={resumeData.github} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
+            <a href={resumeData.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">LinkedIn</a>
+            <a href={`mailto:${resumeData.email}`} className="hover:text-foreground transition-colors">Email</a>
           </div>
         </div>
       </section>
