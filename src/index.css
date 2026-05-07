@@ -65,6 +65,36 @@
     @apply bg-background text-foreground;
     font-family: 'JetBrains Mono', monospace;
   }
+
+  /* Cream / minimal theme used by the GUI portfolio (vimzh-inspired) */
+  .theme-cream {
+    --background: 36 33% 96%;
+    --foreground: 30 20% 12%;
+    --card: 36 30% 93%;
+    --card-foreground: 30 20% 12%;
+    --popover: 36 33% 96%;
+    --popover-foreground: 30 20% 12%;
+    --primary: 30 20% 12%;
+    --primary-foreground: 36 33% 96%;
+    --secondary: 33 18% 88%;
+    --secondary-foreground: 30 20% 12%;
+    --muted: 33 18% 90%;
+    --muted-foreground: 30 8% 38%;
+    --accent: 33 18% 88%;
+    --accent-foreground: 30 20% 12%;
+    --border: 30 12% 82%;
+    --input: 30 12% 82%;
+    --ring: 30 20% 12%;
+
+    --terminal-green: 140 35% 35%;
+    --terminal-yellow: 35 50% 40%;
+    --terminal-cyan: 200 30% 35%;
+    --terminal-blue: 215 35% 35%;
+    --terminal-dim: 30 8% 50%;
+
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
 }
 
 @layer utilities {
