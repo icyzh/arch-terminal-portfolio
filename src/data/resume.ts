@@ -1,6 +1,6 @@
 export const resumeData = {
   name: "Mohit Madan",
-  tagline: "Building reliable AI systems that actually work.",
+  tagline: "AI / Systems Engineer",
   location: "New Delhi, India",
   phone: "+91-7678645682",
   email: "mohitmadan128@gmail.com",
@@ -8,52 +8,82 @@ export const resumeData = {
   linkedin: "https://www.linkedin.com/in/mohit-madan-b8447a313/",
 
   summary:
-    "I build retrieval-based agents, structured decision pipelines, and deploy them in production-grade Linux environments. Focused on making AI systems predictable, testable, and useful — not just demos.",
+    "I build retrieval-based agents, neural compression models, and structured decision pipelines. Most of my time goes into writing code, contributing to open source, and exploring what's possible with LLMs. Focused on making AI systems predictable, testable, and useful — not just demos.",
 
   projects: [
     {
-      name: "TraceOps: Log Analysis & Decision System",
-      link: "https://github.com/Mmadan128/TraceOps",
-      tech: ["LangGraph", "FAISS", "BM25", "Docker", "PyTest"],
+      name: "Chimera",
+      subtitle: "AI Sales Assistant Platform",
+      link: "https://github.com/Mmadan128",
+      tech: ["React", "Node.js", "Python", "Pinecone", "WebSockets"],
       ongoing: false,
       bullets: [
-        "Retrieval-based system for analyzing large HDFS log corpora with structured decision-making.",
-        "Hybrid retrieval combining BM25 + FAISS via Reciprocal Rank Fusion, with CrossEncoder reranking.",
-        "Orchestrated workflows using LangGraph with MCP-style tool interfaces to constrain agent behavior.",
-        "Dockerized dev environment with GitHub PR workflows and PyTest-based validation.",
+        "AI sales assistant that converts website visitors into qualified leads using conversational AI.",
+        "Microservices architecture: React frontend, Node backend, Python AI service.",
+        "RAG pipeline with Pinecone for knowledge-grounded responses and real-time chat over WebSockets.",
       ],
     },
     {
-      name: "Vortex Codec: Neural Compression",
+      name: "Vortex Codec",
+      subtitle: "Byte-Level Neural Compression",
       link: "https://github.com/Mmadan128/VortexCodec",
       tech: ["PyTorch", "CUDA", "Transformers"],
       ongoing: true,
       bullets: [
         "Byte-level autoregressive Transformer for lossless compression of structured binary data.",
-        "CUDA-optimized training with gradient checkpointing and chunked processing under limited GPU memory.",
+        "Designed attention for long-context modeling; evaluated reconstruction and throughput.",
+        "CUDA-optimized training with gradient checkpointing under limited GPU memory.",
       ],
     },
     {
-      name: "Feynman Tutor: Model Fine-Tuning",
+      name: "Feynman AI Tutor",
+      subtitle: "Fine-Tuned LLM for Explanations",
       link: null,
-      tech: ["LoRA", "Hugging Face", "Evaluation"],
+      tech: ["Qwen2.5", "LoRA", "Hugging Face"],
       ongoing: false,
       bullets: [
-        "Fine-tuned transformer models using LoRA with custom evaluation routines for explanation quality.",
+        "Fine-tuned Qwen2.5-1.5B to generate simplified explanations using the Feynman technique.",
+        "Custom dataset design and prompt engineering for educational reasoning quality.",
+        "Mixed-precision and gradient-checkpointed training under tight hardware constraints.",
       ],
     },
   ],
 
   openSource: [
-    "Hacktoberfest 2025 Contributor",
-    "Contributed to open-source repositories through reviewed pull requests.",
-    "Collaborated with maintainers in public GitHub workflows.",
+    {
+      org: "baler-collaboration",
+      repo: "baler",
+      desc: "Fixed constructor signature mismatch in core model init for API stability and component interop.",
+      status: "Merged",
+    },
+    {
+      org: "Hacktoberfest 2025",
+      repo: "6 PRs merged",
+      desc: "Collaborative open-source contributions across multiple repositories with peer code reviews.",
+      status: "Completed",
+    },
+  ],
+
+  education: [
+    {
+      school: "Maharaja Agrasen Institute of Technology",
+      degree: "B.Tech, Computer Science",
+      location: "New Delhi, India",
+      period: "Expected 2028",
+    },
+  ],
+
+  certifications: [
+    "Google AI Essentials",
+    "Hugging Face AI Agents Fundamentals",
+    "DeepLearning.AI NLP Specialization",
+    "Hugging Face Fundamentals of LLMs",
   ],
 
   skills: {
-    Languages: ["Python", "Bash"],
-    Frameworks: ["LangChain", "LangGraph", "MCP", "Hugging Face"],
-    Retrieval: ["FAISS", "BM25", "SentenceTransformers", "CrossEncoder"],
-    Systems: ["Linux", "Git", "Docker", "PyTest", "CUDA"],
+    Languages: ["Python", "Bash", "CUDA"],
+    Frameworks: ["PyTorch", "Hugging Face", "Transformers", "PEFT", "Accelerate", "Triton"],
+    Modeling: ["Transformers", "Autoregressive", "LoRA", "QLoRA", "Mixed Precision"],
+    Systems: ["Linux", "Git", "Docker", "PyTest", "ROOT"],
   },
 };
