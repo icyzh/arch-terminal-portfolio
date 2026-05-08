@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { resumeData } from "@/data/resume";
-import { Mail, Github, Linkedin, Terminal as TerminalIcon, Copy, Check, Send, ArrowUpRight, GraduationCap, Award } from "lucide-react";
+import { Mail, Github, Linkedin, Terminal as TerminalIcon, Copy, Check, Send, ArrowUpRight, Award, ExternalLink } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,102 @@ const SectionHeader = ({ children, count }: { children: React.ReactNode; count?:
     <div className="flex-1 border-b border-dashed border-border/60" />
   </div>
 );
+
+type ContribDay = { date: string; count: number; level: number };
+
+const ContributionGraph = ({ username }: { username: string }) => {
+  const [data, setData] = useState<{ contributions: ContribDay[]; total: Record<string, number> } | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`)
+      .then((r) => r.json())
+      .then(setData)
+      .catch(() => setError(true));
+  }, [username]);
+
+  if (error) return <p className="text-xs text-terminal-dim">Could not load contributions.</p>;
+  if (!data) return <p className="text-xs text-terminal-dim">Loading…</p>;
+
+  // Group days into weeks (columns of 7)
+  const days = data.contributions;
+  const weeks: ContribDay[][] = [];
+  // Pad start so first column begins on Sunday
+  const firstDay = new Date(days[0].date).getDay();
+  const padded: (ContribDay | null)[] = [...Array(firstDay).fill(null), ...days];
+  for (let i = 0; i < padded.length; i += 7) weeks.push(padded.slice(i, i + 7) as ContribDay[]);
+
+  const total = Object.values(data.total).reduce((a, b) => a + b, 0);
+  const year = new Date().getFullYear();
+
+  const levelClass = (lvl: number) => {
+    switch (lvl) {
+      case 0: return "bg-muted/50";
+      case 1: return "bg-terminal-green/25";
+      case 2: return "bg-terminal-green/50";
+      case 3: return "bg-terminal-green/75";
+      case 4: return "bg-terminal-green";
+      default: return "bg-muted/50";
+    }
+  };
+
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const monthLabels: { idx: number; label: string }[] = [];
+  let lastMonth = -1;
+  weeks.forEach((w, i) => {
+    const first = w.find(Boolean);
+    if (!first) return;
+    const m = new Date(first.date).getMonth();
+    if (m !== lastMonth) { monthLabels.push({ idx: i, label: months[m] }); lastMonth = m; }
+  });
+
+  return (
+    <div>
+      <div className="overflow-x-auto">
+        <div className="inline-block">
+          <div className="relative h-4 mb-1" style={{ width: weeks.length * 13 }}>
+            {monthLabels.map((m) => (
+              <span
+                key={m.idx}
+                className="absolute text-[9px] text-terminal-dim font-mono"
+                style={{ left: m.idx * 13 }}
+              >
+                {m.label}
+              </span>
+            ))}
+          </div>
+          <div className="flex gap-[3px]">
+            {weeks.map((w, i) => (
+              <div key={i} className="flex flex-col gap-[3px]">
+                {Array.from({ length: 7 }).map((_, j) => {
+                  const d = w[j];
+                  if (!d) return <div key={j} className="w-[10px] h-[10px]" />;
+                  return (
+                    <div
+                      key={j}
+                      className={`w-[10px] h-[10px] rounded-[2px] ${levelClass(d.level)}`}
+                      title={`${d.count} contribution${d.count === 1 ? "" : "s"} on ${d.date}`}
+                    />
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-between mt-3 text-[10px] text-terminal-dim font-mono">
+        <span>{total} contributions in {year}</span>
+        <div className="flex items-center gap-1.5">
+          <span>Less</span>
+          {[0,1,2,3,4].map((l) => (
+            <span key={l} className={`w-[10px] h-[10px] rounded-[2px] ${levelClass(l)}`} />
+          ))}
+          <span>More</span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
   const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
@@ -119,45 +215,46 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
       {/* Projects */}
       <section id="projects" className="max-w-3xl mx-auto px-6 py-8">
         <SectionHeader count={resumeData.projects.length}>Projects</SectionHeader>
-        <div className="space-y-8">
+        <div className="space-y-4">
           {resumeData.projects.map((p, i) => (
-            <div key={i} className="group">
-              <div className="flex items-start justify-between gap-4">
+            <div key={i} className="rounded-lg border border-border/60 bg-card/40 p-4 hover:bg-card/70 transition-colors">
+              <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="font-semibold text-base text-terminal-green">{p.name}</h3>
-                    {(p as any).subtitle && (
-                      <span className="text-xs text-terminal-dim">— {(p as any).subtitle}</span>
-                    )}
+                    <h3 className="font-semibold text-sm text-foreground">{p.name}</h3>
                     {p.ongoing && (
-                      <span className="text-[10px] px-1.5 py-0.5 rounded-full border border-terminal-yellow/40 text-terminal-yellow">WIP</span>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded border border-terminal-yellow/40 text-terminal-yellow uppercase tracking-wider">WIP</span>
                     )}
                   </div>
-                  <ul className="mt-2 space-y-1 text-sm text-terminal-dim leading-relaxed">
-                    {p.bullets.map((b, j) => (
-                      <li key={j}>— {b}</li>
-                    ))}
-                  </ul>
-                  {p.tech && (
-                    <div className="flex flex-wrap gap-1.5 mt-3">
-                      {p.tech.map((t) => <Pill key={t}>{t}</Pill>)}
-                    </div>
+                  {(p as any).subtitle && (
+                    <p className="text-xs text-terminal-dim mt-0.5">{(p as any).subtitle}</p>
                   )}
                 </div>
-                {p.link && (
-                  <a
-                    href={p.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shrink-0 inline-flex items-center gap-1 text-xs text-terminal-dim hover:text-terminal-green transition-colors"
-                  >
-                    Visit <ArrowUpRight size={12} />
-                  </a>
-                )}
+                <div className="flex items-center gap-3 text-[11px] text-terminal-dim shrink-0">
+                  {p.link && (
+                    <a href={p.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-terminal-green transition-colors">
+                      <Github size={11} /> GitHub
+                    </a>
+                  )}
+                </div>
               </div>
+              <p className="text-xs text-terminal-dim/90 mt-3 leading-relaxed">
+                {p.bullets[0]}
+              </p>
+              {p.tech && (
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {p.tech.map((t) => <Pill key={t}>{t}</Pill>)}
+                </div>
+              )}
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Contributions */}
+      <section className="max-w-3xl mx-auto px-6 py-8">
+        <SectionHeader>Contributions</SectionHeader>
+        <ContributionGraph username="Mmadan128" />
       </section>
 
       {/* Open Source */}
@@ -196,30 +293,16 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
         </div>
       </section>
 
-      {/* Education + Certs */}
-      <section className="max-w-3xl mx-auto px-6 py-8 grid sm:grid-cols-2 gap-8">
-        <div>
-          <SectionHeader>Education</SectionHeader>
-          {resumeData.education.map((e, i) => (
-            <div key={i} className="text-sm">
-              <div className="flex items-center gap-2 text-terminal-green font-semibold">
-                <GraduationCap size={14} /> {e.school}
-              </div>
-              <div className="text-terminal-dim text-xs mt-1">{e.degree}</div>
-              <div className="text-terminal-dim text-xs">{e.location} · {e.period}</div>
-            </div>
+      {/* Certifications */}
+      <section className="max-w-3xl mx-auto px-6 py-8">
+        <SectionHeader count={resumeData.certifications.length}>Certifications</SectionHeader>
+        <ul className="space-y-1.5 text-sm text-terminal-dim">
+          {resumeData.certifications.map((c, i) => (
+            <li key={i} className="flex items-start gap-2">
+              <Award size={12} className="mt-1 shrink-0 text-terminal-yellow" /> {c}
+            </li>
           ))}
-        </div>
-        <div>
-          <SectionHeader count={resumeData.certifications.length}>Certifications</SectionHeader>
-          <ul className="space-y-1.5 text-sm text-terminal-dim">
-            {resumeData.certifications.map((c, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <Award size={12} className="mt-1 shrink-0 text-terminal-yellow" /> {c}
-              </li>
-            ))}
-          </ul>
-        </div>
+        </ul>
       </section>
 
       {/* Contact */}
