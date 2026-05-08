@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { resumeData } from "@/data/resume";
-import { Mail, Github, Linkedin, Terminal as TerminalIcon, Copy, Check, Send, ArrowUpRight, Award, ExternalLink } from "lucide-react";
+import { Mail, Github, Linkedin, Terminal as TerminalIcon, Copy, Check, Send, ArrowUpRight, Award, ExternalLink, BookOpen } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -152,6 +152,7 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
           <div className="flex items-center gap-5 text-terminal-dim">
             <a href="#projects" className="hover:text-foreground transition-colors">Projects</a>
             <a href="#skills" className="hover:text-foreground transition-colors">Skills</a>
+            <a href="#blog" className="hover:text-foreground transition-colors">Blog</a>
             <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
             <button
               onClick={onSwitchMode}
@@ -215,39 +216,54 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
       {/* Projects */}
       <section id="projects" className="max-w-3xl mx-auto px-6 py-8">
         <SectionHeader count={resumeData.projects.length}>Projects</SectionHeader>
-        <div className="space-y-4">
+        <div className="grid sm:grid-cols-2 gap-4">
           {resumeData.projects.map((p, i) => (
-            <div key={i} className="rounded-lg border border-border/60 bg-card/40 p-4 hover:bg-card/70 transition-colors">
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
+            <div key={i} className="rounded-lg border border-border/60 bg-card/30 overflow-hidden hover:bg-card/60 transition-colors flex flex-col">
+              <div className="aspect-[16/9] bg-gradient-to-br from-terminal-green/5 via-card/50 to-terminal-cyan/5 border-b border-border/60 flex items-center justify-center">
+                <span className="text-xs text-terminal-dim/70 font-mono">{p.name}</span>
+              </div>
+              <div className="p-4 flex-1 flex flex-col">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-2 flex-wrap min-w-0">
                     <h3 className="font-semibold text-sm text-foreground">{p.name}</h3>
                     {p.ongoing && (
                       <span className="text-[9px] px-1.5 py-0.5 rounded border border-terminal-yellow/40 text-terminal-yellow uppercase tracking-wider">WIP</span>
                     )}
                   </div>
-                  {(p as any).subtitle && (
-                    <p className="text-xs text-terminal-dim mt-0.5">{(p as any).subtitle}</p>
-                  )}
+                  <div className="flex items-center gap-2 text-terminal-dim shrink-0">
+                    {p.link && (
+                      <a href={p.link} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} on GitHub`} className="hover:text-terminal-green transition-colors">
+                        <Github size={13} />
+                      </a>
+                    )}
+                    {(p as any).demo && (
+                      <a href={(p as any).demo} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} live demo`} className="hover:text-terminal-green transition-colors">
+                        <ExternalLink size={13} />
+                      </a>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 text-[11px] text-terminal-dim shrink-0">
-                  {p.link && (
-                    <a href={p.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-terminal-green transition-colors">
-                      <Github size={11} /> GitHub
-                    </a>
-                  )}
-                </div>
+                <p className="text-xs text-terminal-dim/90 mt-2 leading-relaxed flex-1">
+                  {(p as any).subtitle ? (p as any).subtitle + ". " : ""}{p.bullets[0]}
+                </p>
+                {p.tech && (
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {p.tech.map((t) => <Pill key={t}>{t}</Pill>)}
+                  </div>
+                )}
               </div>
-              <p className="text-xs text-terminal-dim/90 mt-3 leading-relaxed">
-                {p.bullets[0]}
-              </p>
-              {p.tech && (
-                <div className="flex flex-wrap gap-1.5 mt-3">
-                  {p.tech.map((t) => <Pill key={t}>{t}</Pill>)}
-                </div>
-              )}
             </div>
           ))}
+        </div>
+        <div className="mt-5">
+          <a
+            href={resumeData.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-terminal-dim hover:text-terminal-green transition-colors"
+          >
+            View all projects <ArrowUpRight size={12} />
+          </a>
         </div>
       </section>
 
