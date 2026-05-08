@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { resumeData } from "@/data/resume";
 import { Mail, Github, Linkedin, Terminal as TerminalIcon, Copy, Check, Send, ArrowUpRight, Award, ExternalLink, BookOpen } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -289,14 +290,12 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
           ))}
         </div>
         <div className="mt-5">
-          <a
-            href={resumeData.github}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/projects"
             className="inline-flex items-center gap-1.5 text-xs text-terminal-dim hover:text-terminal-green transition-colors"
           >
             View all projects <ArrowUpRight size={12} />
-          </a>
+          </Link>
         </div>
       </section>
 

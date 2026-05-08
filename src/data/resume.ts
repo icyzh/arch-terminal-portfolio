@@ -17,6 +17,7 @@ export const resumeData = {
       link: "https://github.com/Mmadan128",
       tech: ["React", "Node.js", "Python", "Pinecone", "WebSockets"],
       ongoing: false,
+      category: "AI",
       bullets: [
         "AI sales assistant that converts website visitors into qualified leads using conversational AI.",
         "Microservices architecture: React frontend, Node backend, Python AI service.",
@@ -29,6 +30,7 @@ export const resumeData = {
       link: "https://github.com/Mmadan128/VortexCodec",
       tech: ["PyTorch", "CUDA", "Transformers"],
       ongoing: false,
+      category: "AI",
       bullets: [
         "Byte-level autoregressive Transformer for lossless compression of structured binary data.",
         "Designed attention for long-context modeling; evaluated reconstruction and throughput.",
@@ -41,6 +43,7 @@ export const resumeData = {
       link: null,
       tech: ["Qwen2.5", "LoRA", "Hugging Face"],
       ongoing: false,
+      category: "AI",
       bullets: [
         "Fine-tuned Qwen2.5-1.5B to generate simplified explanations using the Feynman technique.",
         "Custom dataset design and prompt engineering for educational reasoning quality.",
