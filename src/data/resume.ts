@@ -28,7 +28,7 @@ export const resumeData = {
       subtitle: "Byte-Level Neural Compression",
       link: "https://github.com/Mmadan128/VortexCodec",
       tech: ["PyTorch", "CUDA", "Transformers"],
-      ongoing: true,
+      ongoing: false,
       bullets: [
         "Byte-level autoregressive Transformer for lossless compression of structured binary data.",
         "Designed attention for long-context modeling; evaluated reconstruction and throughput.",
