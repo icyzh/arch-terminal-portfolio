@@ -29,18 +29,22 @@ const ContributionGraph = ({ username }: { username: string }) => {
 
   useEffect(() => {
     fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`)
-      .then((r) => r.json())
-      .then(setData)
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((d) => {
+        if (!d?.contributions?.length) throw new Error("No data");
+        setData(d);
+      })
       .catch(() => setError(true));
   }, [username]);
 
   if (error) return <p className="text-xs text-terminal-dim">Could not load contributions.</p>;
   if (!data) return <p className="text-xs text-terminal-dim">Loading…</p>;
 
-  // Group days into weeks (columns of 7)
   const days = data.contributions;
   const weeks: ContribDay[][] = [];
-  // Pad start so first column begins on Sunday
   const firstDay = new Date(days[0].date).getDay();
   const padded: (ContribDay | null)[] = [...Array(firstDay).fill(null), ...days];
   for (let i = 0; i < padded.length; i += 7) weeks.push(padded.slice(i, i + 7) as ContribDay[]);
@@ -302,7 +306,7 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
       {/* Contributions */}
       <section className="max-w-3xl mx-auto px-6 py-8">
         <SectionHeader>Contributions</SectionHeader>
-        <ContributionGraph username="Mmadan128" />
+        <ContributionGraph username="icyzh" />
       </section>
 
       {/* Open Source */}
