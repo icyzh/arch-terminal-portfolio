@@ -4,7 +4,7 @@ export const resumeData = {
   location: "New Delhi, India",
   phone: "+91-7678645682",
   email: "mohitmadan128@gmail.com",
-  github: "https://github.com/Mmadan128",
+  github: "https://github.com/icyzh",
   linkedin: "https://www.linkedin.com/in/mohit-madan-b8447a313/",
 
   summary:
@@ -14,7 +14,7 @@ export const resumeData = {
     {
       name: "Chimera",
       subtitle: "AI Sales Assistant Platform",
-      link: "https://github.com/Mmadan128",
+      link: "https://github.com/icyzh",
       tech: ["React", "Node.js", "Python", "Pinecone", "WebSockets"],
       ongoing: false,
       category: "AI",
@@ -27,7 +27,7 @@ export const resumeData = {
     {
       name: "Vortex Codec",
       subtitle: "Byte-Level Neural Compression",
-      link: "https://github.com/Mmadan128/VortexCodec",
+      link: "https://github.com/icyzh/VortexCodec",
       tech: ["PyTorch", "CUDA", "Transformers"],
       ongoing: false,
       category: "AI",
