@@ -70,7 +70,7 @@ export const resumeData = {
 
   experience: [
     {
-      company: "ArtiFex",
+      company: "Artifex One",
       role: "AI Engineer",
       period: "May 2026 – July 2026",
       bullets: [],
