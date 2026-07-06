@@ -189,7 +189,7 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
             <div className="text-[11px] text-terminal-dim mb-2 tracking-wider font-mono">
               <span className="text-terminal-green">$</span> whoami
             </div>
-            <h1 className="text-3xl font-bold tracking-tight">Hey, I'm Mohit</h1>
+            <h1 className="text-3xl font-bold tracking-tight">icyzh <span className="text-terminal-dim font-normal">aka</span> Mohit</h1>
             <p className="text-terminal-cyan mt-1 text-sm">{resumeData.tagline}</p>
 
             <div className="flex items-center gap-2 mt-3 text-sm">
