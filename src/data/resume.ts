@@ -2,7 +2,6 @@ export const resumeData = {
   name: "Mohit Madan",
   tagline: "AI / Systems Engineer",
   location: "New Delhi, India",
-  phone: "+91-7678645682",
   email: "mohitmadan128@gmail.com",
   github: "https://github.com/icyzh",
   githubUsername: "icyzh",
@@ -16,7 +15,7 @@ export const resumeData = {
     {
       name: "Chimera",
       subtitle: "AI Sales Assistant Platform",
-      link: "https://github.com/icyzh",
+      link: null,
       tech: ["React", "Node.js", "Python", "Pinecone", "WebSockets"],
       ongoing: false,
       category: "AI",
@@ -41,7 +40,7 @@ export const resumeData = {
     },
     {
       name: "Feynman AI Tutor",
-      subtitle: "Fine-Tuned LLM for Explanations",
+      subtitle: "Fine-Tuned LLM for Explanations — private repo",
       link: null,
       tech: ["Qwen2.5", "LoRA", "Hugging Face"],
       ongoing: false,

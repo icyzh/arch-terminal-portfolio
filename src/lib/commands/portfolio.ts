@@ -61,7 +61,6 @@ export function contactCmd(): OutputLine[] {
     { content: `  Email:    ${resumeData.email}`, color: "text-terminal-green" },
     { content: `  GitHub:   ${resumeData.github}`, color: "text-terminal-blue" },
     { content: `  LinkedIn: ${resumeData.linkedin}`, color: "text-terminal-blue" },
-    { content: `  Phone:    ${resumeData.phone}`, color: "text-terminal-dim" },
     { content: "" },
     { content: "\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518", color: "text-terminal-cyan" },
   ];

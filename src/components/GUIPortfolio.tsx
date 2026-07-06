@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { resumeData } from "@/data/resume";
-import { Mail, Github, Linkedin, Terminal as TerminalIcon, Copy, Check, Send, ArrowUpRight, Award, ExternalLink, BookOpen } from "lucide-react";
+import { Mail, Github, Linkedin, Terminal as TerminalIcon, Copy, Check, Send, ArrowUpRight, Award, ExternalLink } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -157,7 +157,6 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
           <div className="flex items-center gap-5 text-terminal-dim">
             <a href="#projects" className="hover:text-foreground transition-colors">Projects</a>
             <a href="#skills" className="hover:text-foreground transition-colors">Skills</a>
-            <a href="#blog" className="hover:text-foreground transition-colors">Blog</a>
             <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
             <button
               onClick={onSwitchMode}
@@ -225,39 +224,6 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
         <p className="text-sm leading-relaxed text-foreground/85">
           {resumeData.summary}
         </p>
-      </section>
-
-      {/* Blog */}
-      <section id="blog" className="max-w-3xl mx-auto px-6 py-8">
-        <SectionHeader count={3}>Blog</SectionHeader>
-        <div className="space-y-3">
-          {[
-            { title: "Building a byte-level neural codec from scratch", date: "Apr 2026", read: "8 min" },
-            { title: "RAG that actually retrieves: lessons from Chimera", date: "Mar 2026", read: "6 min" },
-            { title: "Fine-tuning Qwen2.5 on a single GPU with QLoRA", date: "Feb 2026", read: "5 min" },
-          ].map((post, i) => (
-            <a
-              key={i}
-              href="#"
-              className="group flex items-start justify-between gap-4 rounded-lg border border-border/60 bg-card/30 hover:bg-card/60 p-4 transition-colors"
-            >
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-terminal-dim">
-                  <BookOpen size={10} /> {post.date} · {post.read} read
-                </div>
-                <h3 className="text-sm text-foreground mt-1 group-hover:text-terminal-green transition-colors">
-                  {post.title}
-                </h3>
-              </div>
-              <ArrowUpRight size={14} className="text-terminal-dim shrink-0 mt-1 group-hover:text-terminal-green transition-colors" />
-            </a>
-          ))}
-        </div>
-        <div className="mt-4">
-          <a href="#" className="inline-flex items-center gap-1.5 text-xs text-terminal-dim hover:text-terminal-green transition-colors">
-            View all posts <ArrowUpRight size={12} />
-          </a>
-        </div>
       </section>
 
       {/* Projects */}

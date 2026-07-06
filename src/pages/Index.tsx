@@ -4,7 +4,7 @@ import GUIPortfolio from "@/components/GUIPortfolio";
 import { Monitor, Terminal as TerminalIcon } from "lucide-react";
 
 const Index = () => {
-  const [mode, setMode] = useState<"terminal" | "gui">("gui");
+  const [mode, setMode] = useState<"terminal" | "gui">("terminal");
 
   if (mode === "gui") {
     return <GUIPortfolio onSwitchMode={() => setMode("terminal")} />;
