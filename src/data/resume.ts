@@ -73,9 +73,7 @@ export const resumeData = {
       company: "ArtiFex",
       role: "AI Engineer",
       period: "May 2026 – July 2026",
-      bullets: [
-        "Working on AI-powered solutions and systems engineering.",
-      ],
+      bullets: [],
     },
   ],
 
