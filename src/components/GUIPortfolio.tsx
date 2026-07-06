@@ -173,8 +173,17 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
       {/* Hero */}
       <section className="max-w-3xl mx-auto px-6 pt-20 pb-12">
         <div className="flex gap-6 items-start">
-          <div className="w-24 h-24 rounded-full bg-card border border-border flex items-center justify-center text-2xl font-bold text-terminal-green shrink-0">
-            MM
+          <div className="w-24 h-24 rounded-full bg-card border border-border overflow-hidden shrink-0">
+            <img
+              src={resumeData.avatar}
+              alt={resumeData.name}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+                (e.target as HTMLImageElement).parentElement!.classList.add("flex", "items-center", "justify-center", "text-2xl", "font-bold", "text-terminal-green");
+                (e.target as HTMLImageElement).parentElement!.innerHTML = '<span class="text-2xl font-bold text-terminal-green">MM</span>';
+              }}
+            />
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-[11px] text-terminal-dim mb-2 tracking-wider font-mono">

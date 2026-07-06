@@ -5,6 +5,8 @@ export const resumeData = {
   phone: "+91-7678645682",
   email: "mohitmadan128@gmail.com",
   github: "https://github.com/icyzh",
+  githubUsername: "icyzh",
+  avatar: "https://github.com/icyzh.png",
   linkedin: "https://www.linkedin.com/in/mohit-madan-b8447a313/",
 
   summary:
