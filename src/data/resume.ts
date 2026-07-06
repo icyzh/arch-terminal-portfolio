@@ -14,7 +14,7 @@ export const resumeData = {
   projects: [
     {
       name: "Chimera",
-      subtitle: "AI Sales Assistant Platform",
+      subtitle: "AI Sales Assistant Platform — private repo",
       link: null,
       tech: ["React", "Node.js", "Python", "Pinecone", "WebSockets"],
       ongoing: false,
