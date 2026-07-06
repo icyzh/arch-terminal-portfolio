@@ -1,5 +1,5 @@
 import { OutputLine } from "./commands/types";
-import { aboutCmd, skillsCmd, projectsCmd, contactCmd } from "./commands/portfolio";
+import { aboutCmd, skillsCmd, projectsCmd, experienceCmd, contactCmd } from "./commands/portfolio";
 import { neofetchCmd, uptimeCmd, unameCmd, hostnameCmd, idCmd, wCmd, topCmd, psCmd, killCmd, freeCmd, lscpuCmd, pacmanCmd, systemctlCmd, journalctlCmd } from "./commands/system";
 import { lsCmd, catCmd, treeCmd, headCmd, tailCmd, wcCmd, findCmd, duCmd, dfCmd, chmodCmd, mkdirCmd, touchCmd, cpCmd, mvCmd, statCmd, fileCmd } from "./commands/filesystem";
 import { pingCmd, curlCmd, wgetCmd, sshCmd, ifconfigCmd, ipCmd, digCmd, tracerouteCmd, netstatCmd, ssCmd } from "./commands/network";
@@ -27,6 +27,7 @@ export function processCommand(cmd: string): OutputLine[] {
     case "help": return helpCmd();
     case "about": case "whoami": return aboutCmd();
     case "skills": return skillsCmd();
+    case "experience": return experienceCmd();
     case "projects": return projectsCmd();
     case "contact": return contactCmd();
     case "neofetch": return neofetchCmd();

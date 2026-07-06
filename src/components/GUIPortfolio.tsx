@@ -226,6 +226,37 @@ const GUIPortfolio = ({ onSwitchMode }: { onSwitchMode: () => void }) => {
         </p>
       </section>
 
+      {/* Experience */}
+      {resumeData.experience.length > 0 && (
+        <section className="max-w-3xl mx-auto px-6 py-8">
+          <SectionHeader count={resumeData.experience.length}>Experience</SectionHeader>
+          <div className="space-y-5">
+            {resumeData.experience.map((exp, i) => (
+              <div key={i} className="rounded-lg border border-border/60 bg-card/30 p-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-semibold text-foreground">
+                      {exp.role} <span className="text-terminal-dim font-normal">@</span>{" "}
+                      <span className="text-terminal-cyan">{exp.company}</span>
+                    </h3>
+                    <p className="text-[11px] text-terminal-yellow mt-0.5">{exp.period}</p>
+                    {exp.bullets.length > 0 && (
+                      <ul className="mt-2 space-y-1">
+                        {exp.bullets.map((b, j) => (
+                          <li key={j} className="text-xs text-terminal-dim/90 flex items-start gap-2">
+                            <span className="text-terminal-green mt-1">▸</span> {b}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Projects */}
       <section id="projects" className="max-w-3xl mx-auto px-6 py-8">
         <SectionHeader count={resumeData.projects.length}>Projects</SectionHeader>

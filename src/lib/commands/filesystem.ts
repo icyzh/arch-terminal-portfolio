@@ -1,5 +1,5 @@
 import { OutputLine } from "./types";
-import { aboutCmd, skillsCmd, projectsCmd, contactCmd } from "./portfolio";
+import { aboutCmd, skillsCmd, projectsCmd, experienceCmd, contactCmd } from "./portfolio";
 
 export function lsCmd(args: string[]): OutputLine[] {
   if (args.includes("-la") || args.includes("-l") || args.includes("-al") || args.includes("-lah")) {
@@ -38,6 +38,7 @@ export function catCmd(args: string[]): OutputLine[] {
   const map: Record<string, () => OutputLine[]> = {
     about: aboutCmd,
     skills: skillsCmd,
+    experience: experienceCmd,
     projects: projectsCmd,
     contact: contactCmd,
     ".arch-btw": () => [{ content: "I use Arch, btw.", color: "text-terminal-cyan" }],

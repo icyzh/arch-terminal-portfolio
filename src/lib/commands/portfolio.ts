@@ -54,6 +54,23 @@ export function projectsCmd(): OutputLine[] {
   return lines;
 }
 
+export function experienceCmd(): OutputLine[] {
+  const lines: OutputLine[] = [
+    { content: "┌─ Experience ─────────────────────────────────────────┐", color: "text-terminal-cyan" },
+    { content: "" },
+  ];
+  resumeData.experience.forEach((exp) => {
+    lines.push({ content: `  ${exp.role} @ ${exp.company}`, color: "text-terminal-green" });
+    lines.push({ content: `  ${exp.period}`, color: "text-terminal-yellow" });
+    exp.bullets.forEach((b) => {
+      lines.push({ content: `    - ${b}`, color: "text-foreground" });
+    });
+    lines.push({ content: "" });
+  });
+  lines.push({ content: "└────────────────────────────────────────────────────┘", color: "text-terminal-cyan" });
+  return lines;
+}
+
 export function contactCmd(): OutputLine[] {
   return [
     { content: "\u250C\u2500 Contact \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510", color: "text-terminal-cyan" },
