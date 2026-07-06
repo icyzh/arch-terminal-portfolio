@@ -68,6 +68,17 @@ export const resumeData = {
     },
   ],
 
+  experience: [
+    {
+      company: "ArtiFex",
+      role: "AI Engineer",
+      period: "May 2026 – July 2026",
+      bullets: [
+        "Working on AI-powered solutions and systems engineering.",
+      ],
+    },
+  ],
+
   education: [
     {
       school: "Maharaja Agrasen Institute of Technology",
